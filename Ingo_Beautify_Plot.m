@@ -108,10 +108,10 @@ for counter = 1 : 1 : length(AxesChildren)
             set(AxesChildren(counter),'Box','on');
         else
             set(AxesChildren(counter),'Box','off');
-%             set(AxesChildren(counter),'XMinorTick','on');
-%             set(AxesChildren(counter),'YMinorTick','on');
-%             set(AxesChildren(counter),'MinorGridColor',[0.15 0.15 0.15]);
-%             set(AxesChildren(counter),'MinorGridAlpha',0.15);
+            set(AxesChildren(counter),'XMinorTick','on');
+            set(AxesChildren(counter),'YMinorTick','on');
+            set(AxesChildren(counter),'MinorGridColor',[0.3 0.3 0.3]);
+            set(AxesChildren(counter),'MinorGridAlpha',0.3);
         end
         
         if max(strcmp(varargin,'Grid'))
@@ -132,8 +132,8 @@ for counter = 1 : 1 : length(AxesChildren)
             
             x = get(AxesChildren(counter),'XLim');
             y = get(AxesChildren(counter),'YLim');
-            xlim = x;
-            ylim = y;
+            xlim = x*0.96;
+            ylim = y*0.96;
             
             Start = [x(2), 0]; % x, y
             End   = [x(1), 0];  % x , y
@@ -157,10 +157,10 @@ for counter = 1 : 1 : length(AxesChildren)
             end
             
             a1   = annotation('arrow',nx1,ny1);
-            a1.LineWidth=1.2;
+            a1.LineWidth=LineWidth;
             
             a2   = annotation('arrow',nx2,ny2);
-            a2.LineWidth=1.2;
+            a2.LineWidth=LineWidth;
             
 %             set(AxesChildren(counter),'XLim',[x(1) x(2)-(x(2)-x(1))/15]);
 %             set(AxesChildren(counter),'YLim',[y(1) y(2)+(y(2)-y(1))/15]);
