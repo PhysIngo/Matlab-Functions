@@ -1,17 +1,35 @@
 function [segment, varargout] = SeparateLesions(Lesions,varargin)
-% SeparateLesions by Ingo Hermann 2020-10-08
+% SeparateLesions by Ingo Hermann 2021-05-18
 % This functions separates Lesions or clusters in an image which are
 % separated and asign increasing numbers.
-% --------------------------------
-% This scripts needs the user functions:
-% - none -
-%
 % This is a function, which uses a watershed in 3D to label the single
 % lesions in a 3D data set. The input 'Lesions' shoud be a 3D matrix.
+% --------------------------------
+% This scripts needs the user functions:
+% meanzeros.m
+% MosaicOnOff.m
+% myColorMap.m
+%
+% Exp.: [segment, varargout] = SeparateLesions(Lesions,varargin)
+%
+% --- arguments ---
+% [segment,...] = SeparateLesions(Lesions,...):
+% Lesions ... is the binary mask of the lesions
+% segment ... are the separated segments 
+%
+% --- optional input arguments ---
+% [...] = SeparateLesions(...,varargin):
 % 'Precission' ... how precise the segmentation shoud be
 % 'Plot' ... plots the label lesions in a Mosaic manner
 % '3D' ... representation of Lesion in 3D
 % 'Calculate*' ... calculates the min,max,mean,std and amount of ms lesions
+%
+% --- optional output arguments ---
+% [...,varargout] = SeparateLesions(...):
+% varargout ... is an array with all min,max,mean,std,amount of the lesions
+%
+
+
     Mask = Lesions;
     Mask(Mask>0) = 1;
     D = bwdist(~Mask);

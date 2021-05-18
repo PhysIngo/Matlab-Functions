@@ -1,14 +1,18 @@
 function varargout = calculateROI_GUI(varargin)
-% CalculateROI_GUI by Ingo Hermann 2020-10-08
+% calculateROI_GUI by Ingo Hermann 2021-05-18
 % This is a GUI function with that it is very easy to segment stuff and so
 % on. Several options are implemented and this is a addon to the function
 % calculateROI.m which only is doing it on an opened Figure
 % --------------------------------
-% This scripts needs the user functions:
+% This script needs the user functions:
 % openMaps.m
 % MosaicOnOff.m
 % myColorMap.m
 % regiongrowing.m
+% 
+% open the GUI function with:
+% calculateROI_GUI
+%
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;

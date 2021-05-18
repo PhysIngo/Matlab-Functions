@@ -1,44 +1,31 @@
 function varargout = calculateROI(varargin)
-% CalculateROI by Ingo Hermann 2020-10-08
+% calculateROI by Ingo Hermann 2021-05-18
 % This is calculates mask from an opened Figure with different options
 % shown below
 % --------------------------------
-% This scripts needs the user functions:
+% This script needs the user functions:
 % regiongrowing.m
-% --------------------------------
+%
+% Exp.: mask = calculateROI('save','Multi',12,'circle',5);
+%
+% --- optional input arguments ---
+% calculateROI(varargin):
 % 'circle',radi ... segment a circle with given radii.
 % 'Multi',num ... segment several times and increments the value for each new segment 
 % 'points' ... segment a single point until you repeat one position
+% 'point' ... segment only one single point 
 % 'limits',[lo up] ... bounderies for segmented area
 % 'save' ... saves the segmentation in .mat
+%
+% --- optional output arguments ---
+% varargout = calculateROI(...):
+% varargout ... masks as output
 
 h = gcf;
 axesObjs = get(h, 'Children');  %axes handles
 dataObjs = get(axesObjs, 'Children');
-
-imNo = 0;
-% imgObj = dataObjs(2+imNo,1);
-% if max(strcmp(varargin,'3D')) == 1
-%     element = length(axesObjs);
-% else
-    element = length(dataObjs);
-% end
-imgObj = dataObjs(element,1);
-graph = imgObj(end,1);
-celler = graph(1,1);
-nop = 0;
-try
-    img = celler{end,1};
-catch
-    warning('Problem using function.  Assigning a value of 0.');
-    nop = 1;
-end
-if nop == 1
-    mat = celler.CData;
-else
-    img = celler{end,1};
-    mat = img.CData;
-end
+element = length(dataObjs);
+mat = getimage(h);
     
 if isempty(varargin)
     varargin = 'empty';
@@ -56,8 +43,9 @@ else
 end
 multiMask = zeros(size(mat));
 for multiCount = 1:1:maskValue
-    if max(strcmp(varargin,'circle')) == 0 && max(strcmp(varargin,'points')) == 0
-        polyH = impoly(axesObjs(element,1));
+    if max(strcmp(varargin,'circle')) == 0 && max(strcmp(varargin,'point')) == 0 && max(strcmp(varargin,'points')) == 0
+%         polyH = impoly(axesObjs(element,1));
+        polyH = impoly;
         position = wait(polyH);
         col_pos = (1:size(mat,1))';
         row_pos = 1:size(mat,2);
@@ -73,7 +61,7 @@ for multiCount = 1:1:maskValue
 %         if max(strcmp(varargin,'Poly'))
 %             mask = position;
 %         end
-    elseif max(strcmp(varargin,'points')) == 1
+    elseif max(strcmp(varargin,'point')) == 1
         mask = zeros(size(mat));
         repeat = 0;
         oldpos = [0, 0];
@@ -95,7 +83,7 @@ for multiCount = 1:1:maskValue
                 'off','Enable','off')
             delete(findall(gcf,'Type','hggroup'));
             mask(pos(2),pos(1)) = multiCount;
-            if oldpos(1)-pos(1) == 0 && oldpos(2)-pos(2) == 0
+            if (oldpos(1)-pos(1) == 0 && oldpos(2)-pos(2) == 0)|| max(strcmp(varargin,'points')) == 0
                 break;
             else
                 oldpos = pos;
@@ -166,7 +154,7 @@ if (max(strcmp(varargin,'Poly')))==0 && max(strcmp(varargin,'Multi'))
 end
 hold all;
 
-if (max(strcmp(varargin,'circle')))==0 && (max(strcmp(varargin,'points')))==0 ...
+if (max(strcmp(varargin,'circle')))==0 && (max(strcmp(varargin,'point')))==0 && (max(strcmp(varargin,'points')))==0 ...
         && (max(strcmp(varargin,'Multi')))==0 && (max(strcmp(varargin,'Poly')))==0
     imagesc(mat.*(mask+0.5)+mask*100000);
     plot([position(:,1)' position(1,1)],[position(:,2)' position(1,2)],...
@@ -187,20 +175,10 @@ else
     text(pos(2),pos(1),str,'Color',[0.8 0.1 0.2]);
 end
     
-
-% choice = questdlg('Do you wanna save the roi?', ...
-% 'Really', ...
-% 'Yes','No','No');
-% switch choice
-%     case 'Yes'
-%         [SaveName,currentfolder] = uiputfile('mask.mat','Save file name');
-%         save(strcat(currentfolder,filesep,sprintf('%s',SaveName)),'-struct','Mask');
-%     case 'No'
-% end
-mask_aorta.mask = mask;
+mask_str.mask = mask;
 if max(strcmp(varargin,'save'))
     [SaveName,currentfolder] = uiputfile('mask.mat','Save file name');
-    save(strcat(currentfolder,filesep,sprintf('%s',SaveName)),'-struct','mask_aorta');
+    save(strcat(currentfolder,filesep,sprintf('%s',SaveName)),'-struct','mask_str');
 end
 varargout{1} = mask;
 end

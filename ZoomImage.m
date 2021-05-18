@@ -1,17 +1,20 @@
 function out = ZoomImage(img, factor, varargin)
-% ZoomImage by Ingo Hermann, 2020-02-16
-% This functions zooms into the image
+% ZoomImage by Ingo Hermann, 2021-05-18
+% This functions zooms into the image. This can also zoom and 3D image.
 % --------------------------------
-% This scripts needs the user functions:
+% This script needs the user functions:
 % - none -
 %
-% Exp.: out = ZoomImage(img, factor, varargin)
+% Exp.: out = ZoomImage(img,factor,varargin);
 %
-% 'img' ... input image to be zoomed
-% 'factor ... multiplication factor to be zoomed
+% --- arguments ---
+% out = ZoomImage(img,factor,...)
+% img ... input image to be zoomed
+% factor ... multiplication factor to be zoomed
+% out ... output image in zoomed version
 %
-% -- optional arguments -- 
-% ZoomImage(..., varargin)
+% -- optional input arguments -- 
+% ZoomImage(...,varargin)
 % 'rect' ... makes the zoomed image rectangular with the smaller of both
 % dimensions
 %

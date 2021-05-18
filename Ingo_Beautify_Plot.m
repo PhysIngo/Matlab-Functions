@@ -1,11 +1,15 @@
 function Ingo_Beautify_Plot(varargin)
-% myColBeautify_Plot by Ingo Hermann 2020-10-08
+% Ingo_Beautify_Plot by Ingo Hermann, 2021-05-18
 % This functions makes pretty plots with subplots and everything. Increases
 % the text size and so on ...
 % --------------------------------
-% This scripts needs the user functions:
+% This script needs the user functions:
 % - none -
 %
+% Exp:. Ingo_Beautify_Plot('LineWidth',1.5,'Arrow');
+%
+% --- optional input arguments ---
+% Ingo_Beautify_Plot(varargin)
 % 'Size',SizeVec ... gives the size of the figure in relative units
 % (Default: [0.1 0.1 0.8 0.8])
 % 'Scale',fac ... scales the text size by a factor (Default: 1)
@@ -18,6 +22,7 @@ function Ingo_Beautify_Plot(varargin)
 % 'Arrow' ... plots an arrow at the figure axes (Default: off)
 % 'LegendColor,'LegendColor ... sets the color of the legend by the color
 % vector LegendColor (Default: [1 1 1 0.7])
+%
 
 
 hFig = gcf;
@@ -81,6 +86,7 @@ for counter = 1 : 1 : length(AxesChildren)
         set(get(AxesChildren(counter),'YLabel'),'FontSize',round(18*fac));
         set(get(AxesChildren(counter),'Title'),'FontSize',round(18*fac));
         set(get(AxesChildren(counter),'Title'),'FontWeight','bold');
+        set(get(AxesChildren(counter),'XLabel'),'FontSize',round(18*fac));
         set(AxesChildren(counter),'Color','none');
         set(AxesChildren(counter),'XMinorTick','off');
         set(AxesChildren(counter),'YMinorTick','off');
@@ -172,11 +178,23 @@ for counter = 1 : 1 : length(AxesChildren)
     end
     
         
+    if(strcmp(get(AxesChildren(counter), 'Tag'), 'Colorbar'))
+        ax1 = AxesChildren(counter);
+        ax1.FontSize = round(18*fac);
+        %ax1.FontWeight = 'bold';
+        ax1.FontName = FontName;
+        ax1.Color = [0 0 0];
+        AxesChildren(counter) = ax1;
+    end
+    
     if(strcmp(get(AxesChildren(counter), 'Type'), 'legend'))
         set(AxesChildren(counter),'FontSize',round(16*fac));
         set(AxesChildren(counter),'EdgeColor', [0 0 0]);
         set(AxesChildren(counter),'FontName', FontName);
         lgnd = AxesChildren(counter);
+        try 
+            lgnd.BoxColor = [0 0 0];
+        end
         lgnd.BoxFace.ColorType='truecoloralpha';
         lgnd.BoxFace.ColorData=uint8(255*LegendColor');
         AxesChildren(counter) = lgnd;

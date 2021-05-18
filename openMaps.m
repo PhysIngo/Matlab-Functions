@@ -1,22 +1,33 @@
 function [imageData, varargout] = openMaps(name, varargin)
-% openMaps by Ingo Hermann 2020-10-08
+% openMaps by Ingo Hermann 2021-05-18
 % This functions opens everything from Dicoms to Niftis with very nice
 % options so its is easy to load entire folders or specific files
 % --------------------------------
-% This scripts needs the user functions:
+% This script needs the user functions:
 % MosaicOnOff.m
 %
-% function [imageData, varargout] = openMaps(name, varargin)
+% Exp.: [Imgs, Head, Meta, Dcm] = openMaps('D\MRF\*,'all','nifti');
+%
+% --- arguments ---
+% [imageData,...] = openMaps(name,...)
 % imageData ... output matrix data
-% varargout ... the tmpHeader with all header informations
+% --- arguments ---
 % name ... folder and file name as one string
-% 'num' ... position of file in the folder to open
+%
+% --- optional input arguments ---
+% openMaps(...,varargin):
+% 'num',num ... position of file in the folder to open
 % 'all' ... will load all files in the folder in an array
 % 'show' ... will show the loaded image but just if it's not 'all'
 % '3D' ... makes 3D data 2D.
-% 'Column',Column ... if data is not rectangular you have to giv ethe
+% 'Column',Column ... if data is not rectangular you have to give the
 % column dimension
-% this function need the function MosaicOnOff();
+% 
+% --- optional input arguments ---
+% [...,varargout] = openMaps(...):
+% varargout ... the tmpHeader with all header informations
+% 
+
 if isempty(varargin)
     varargin{1} = '';
 end
@@ -139,6 +150,7 @@ elseif strcmp(stte,'normal')
     imageData(:,:) = imread(name);
 elseif strcmp(stte,'matrix')
     inputStruct = load(name);
+    
     if isfield(inputStruct,'T1Map')
         imageData(:,:) = inputStruct.T1Map;
     elseif isfield(inputStruct,'t1Map')
@@ -357,21 +369,59 @@ theName = 'lTotalScanTime';
 [vals,names] = getCellValueByName(ASCCFields, theName, 'numeric');
 scanTime = vals;
 
+% Read scantime
+theName = 'lScanTimeSec';
+[vals,names] = getCellValueByName(ASCCFields, theName, 'numeric');
+scanTimeSec = vals;
+
 % Read lSegments
 theName = 'lSegments';
 [vals,names] = getCellValueByName(ASCCFields, theName, 'numeric');
 lSegments = vals;
+
+% Read heartRate
+theName = 'sPhysioImaging.sPhysioResp.dGatingRatio';
+[vals,names] = getCellValueByName(ASCCFields, theName, 'numeric');
+lGating = vals;
+
+% Read Gating
+theName = 'sPhysioImaging.sPhysioECG.lScanWindow';
+[vals,names] = getCellValueByName(ASCCFields, theName, 'numeric');
+lScanWindow = vals;
+
+% Phase Encoding Lines
+theName = 'lPhaseEncodingLines';
+[vals,names] = getCellValueByName(ASCCFields, theName, 'numeric');
+lPhaseEncodingLines = vals;
+
+% Reordering
+theName = 'unReordering';
+[vals,names] = getCellValueByName(ASCCFields, theName, 'numeric');
+unReordering = vals;
+	
+
+% dReadoutFOV
+theName = 'sAdjData.sAdjVolume.dReadoutFOV';
+[vals,names] = getCellValueByName(ASCCFields, theName, 'numeric');
+dReadoutFOV = vals;
+
 
 
 Output.alFree = alFree;
 Output.alFreeName = alFreeName;
 Output.adFree = adFree;
 Output.adFreeName = adFreeName;
-Output.alTE = alTE;
-Output.alTEName = alTEName;
+% Output.alTE = alTE;
+% Output.alTEName = alTEName;
 
 Output.scanTime = scanTime;
 Output.lSegments = lSegments;
+Output.lScanWindow = lScanWindow;
+Output.lGating = lGating;
+Output.dReadoutFOV = dReadoutFOV;
+
+Output.lPhaseEncodingLines = lPhaseEncodingLines;
+Output.unReordering = unReordering;
 
 end
 
