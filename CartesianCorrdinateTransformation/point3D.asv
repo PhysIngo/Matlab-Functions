@@ -24,9 +24,9 @@ function point3D(startVec,stopVec,varargin)
     
     [logic, index] = max(strcmp(varargin,'Offset'));
     if logic
-        offset = varargin{index+1};
+        offset = varargin{index+1;
     else
-        offset = 10;
+        offset = '.';
     end
     
     [logic, index] = max(strcmp(varargin,'LineWidth'));

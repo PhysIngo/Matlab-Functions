@@ -121,9 +121,9 @@ function varargout = grid3D(startVec,stopVec,varargin)
         thicky=(xrange+zrange)/(2*yrange);
         thickz=(yrange+xrange)/(2*zrange);
         
-        arrow3D(startVec+RotGridMat(1,:),startVec+(1+1/offset).*RotGridMat(1,:),'Length',1,'Thickness',thickx,'Color',[0 0 0],'Axes',ax);
-        arrow3D(startVec+RotGridMat(2,:),startVec+(1+1/offset).*RotGridMat(2,:),'Length',1,'Thickness',thicky,'Color',[0 0 0],'Axes',ax);
-        arrow3D(startVec+RotGridMat(3,:),startVec+(1+1/offset).*RotGridMat(3,:),'Length',1,'Thickness',thickz,'Color',[0 0 0],'Axes',ax);
+        arrow3D(startVec+RotGridMat(1,:),startVec+(1+1/offset).*RotGridMat(1,:),'Thickness',thickx,'Color',[0 0 0],'Axes',ax);
+        arrow3D(startVec+RotGridMat(2,:),startVec+(1+1/offset).*RotGridMat(2,:),'Thickness',thicky,'Color',[0 0 0],'Axes',ax);
+        arrow3D(startVec+RotGridMat(3,:),startVec+(1+1/offset).*RotGridMat(3,:),'Thickness',thickz,'Color',[0 0 0],'Axes',ax);
     end
     
     

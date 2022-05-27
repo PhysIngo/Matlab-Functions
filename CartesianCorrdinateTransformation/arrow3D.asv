@@ -6,6 +6,7 @@ function arrow3D(startVec,stopVec,varargin)
 % Optional input argument (varargin):
 % 'Color',color ... define the color of the arrow/point
 % 'Thickness',thick ... thickness of the arrow
+% 'Length',length ... Length of the arrow
 % 'Axes',ax ... Input axes
 
     if isempty(varargin)
@@ -18,6 +19,7 @@ function arrow3D(startVec,stopVec,varargin)
     x2 = stopVec(1);
     y2 = stopVec(2);
     z2 = stopVec(3);
+    
     
     [logic, index] = max(strcmp(varargin,'Axes'));
     if logic
