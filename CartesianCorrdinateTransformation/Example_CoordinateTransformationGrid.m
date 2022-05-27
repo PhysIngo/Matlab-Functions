@@ -1,5 +1,6 @@
 figure;
-Ingo_Beautify_Plot('Size',[0.1 0.1 0.6 0.6]);hold on;axis off;
+% Ingo_Beautify_Plot('Size',[0.1 0.1 0.6 0.6]);
+hold on;axis off;
 grid3D([0,0,0], [1,1,1], 'Amount', [4,4,4], 'Axes', gca, 'MinorGrid','Arrow','AxTicks',[{['']},{['']},{['']}],...
     'AxLabels',["";"";""]);
 
