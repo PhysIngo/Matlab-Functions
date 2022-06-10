@@ -157,21 +157,37 @@ img_trans = zeros(sz(1),sz(2));
 rgb = zeros(sz(1),sz(2));
 rgb_all = rgb;
 %set(handles.input_bg, 'String', '');
-counter = 1;
-fig(1) = figure(1);imshow(img);
-dcm_obj = datacursormode(fig(1));
-set(dcm_obj,'DisplayStyle','datatip','SnapToDataVertex',...
-    'off','Enable','on')
-disp('Choose a background pixel')
-pause 
-pos1 = getCursorInfo(dcm_obj);
-pos = pos1.Position;
-close(fig(1));
-%whos img;
-%define the background as chosen point
-background(counter,1) = img(pos(2), pos(1),1);
-background(counter,2) = img(pos(2), pos(1),2);
-background(counter,3) = img(pos(2), pos(1),3);
+
+% skip this part
+
+if handles.checkbox4.Value==0
+    counter = 1;
+    pos1 = [];
+    fig(1) = figure(1);imshow(img);
+    dcm_obj = datacursormode(fig(1));
+    set(dcm_obj,'DisplayStyle','datatip','SnapToDataVertex',...
+            'off','Enable','on')
+    while isempty(pos1)
+        disp('Choose a background pixel')
+        pos1 = getCursorInfo(dcm_obj);
+        pause(1);
+    end
+    pos = pos1.Position;
+    close(fig(1));
+    %whos img;
+    %define the background as chosen point
+    background(counter,1) = img(pos(2), pos(1),1);
+    background(counter,2) = img(pos(2), pos(1),2);
+    background(counter,3) = img(pos(2), pos(1),3);
+else
+    b1 = str2double(get(handles.edit_r,'String'));
+    b2 = str2double(get(handles.edit_g,'String'));
+    b3 = str2double(get(handles.edit_b,'String'));
+    background(counter,1) = uint8(b1);
+    background(counter,2) = uint8(str2double(get(handles.edit_g,'String')));
+    background(counter,3) = uint8(str2double(get(handles.edit_b,'String')));
+end
+
 
 %background 
 
@@ -486,3 +502,81 @@ function b1_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+
+function edit_r_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_r (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_r as text
+%        str2double(get(hObject,'String')) returns contents of edit_r as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_r_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_r (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit_g_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_g (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_g as text
+%        str2double(get(hObject,'String')) returns contents of edit_g as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_g_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_g (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit_b_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_b (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_b as text
+%        str2double(get(hObject,'String')) returns contents of edit_b as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_b_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_b (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in checkbox4.
+function checkbox4_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox4
