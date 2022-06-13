@@ -49,10 +49,14 @@ end
 if max(strcmp(varargin,'LineWidth'))
     idx = 1 + find(strcmp(varargin,'LineWidth'));
 	LineWidth = varargin{1,idx};
+else
+    LineWidth = 1.5;
 end
 if max(strcmp(varargin,'MarkerSize'))
     idx = 1 + find(strcmp(varargin,'MarkerSize'));
 	MarkerSize = varargin{1,idx};
+else
+    MarkerSize = 6;
 end
 
 if max(strcmp(varargin,'LegendColor'))
