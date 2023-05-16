@@ -30,13 +30,14 @@ hFig = gcf;
 if max(strcmp(varargin,'Size'))
     idx = 1 + find(strcmp(varargin,'Size'));
     SizeVec = varargin{1,idx};
+    if isempty(SizeVec)
+        SizeVec = get(hFig,'Position');
+    end
 else
     SizeVec = [0.1 0.1 0.7 0.7];
 end
-set(hFig, 'Color', [1 1 1], 'Units', 'normalized', 'Position', SizeVec)
 % set(hFig, 'Color', [1 1 1], 'Units', 'inches', 'Position', [1 1 9 6])
 
-AxesChildren = get(hFig, 'Children');
 
 
 if max(strcmp(varargin,'Scale'))
@@ -73,6 +74,16 @@ else
     FontName = 'Calibri';
 end
 
+
+if max(strcmp(varargin,'Zeiss'))
+    LineWidth = 2;
+    FontName = 'ZEISS Frutiger Next W1G';
+    SizeVec = get(hFig,'Position');
+end
+
+set(hFig, 'Color', [1 1 1], 'Units', 'normalized', 'Position', SizeVec)
+AxesChildren = get(hFig, 'Children');
+
 for counter = 1 : 1 : length(AxesChildren)
     if(strcmp(get(AxesChildren(counter), 'Type'), 'axes'))
         set(AxesChildren(counter),'FontSize',round(18*fac));
@@ -94,7 +105,7 @@ for counter = 1 : 1 : length(AxesChildren)
         set(AxesChildren(counter),'Color','none');
         set(AxesChildren(counter),'XMinorTick','off');
         set(AxesChildren(counter),'YMinorTick','off');
-        if max(strcmp(varargin,'LineWidth'))
+        if max(strcmp(varargin,'LineWidth')) || max(strcmp(varargin,'Zeiss'))
             Children = AxesChildren(counter).Children;
             for cc=1:1:size(Children,1)
                 Children(cc,1).LineWidth = LineWidth;%Children(cc,1).LineWidth*
@@ -191,7 +202,7 @@ for counter = 1 : 1 : length(AxesChildren)
         AxesChildren(counter) = ax1;
     end
     
-    if(strcmp(get(AxesChildren(counter), 'Type'), 'legend'))
+    if(strcmp(get(AxesChildren(counter), 'Type'), 'legend')) 
         set(AxesChildren(counter),'FontSize',round(16*fac));
         set(AxesChildren(counter),'EdgeColor', [0 0 0]);
         set(AxesChildren(counter),'FontName', FontName);
